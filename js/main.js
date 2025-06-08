@@ -102,9 +102,10 @@ function mostrarMenu() {
                 if (historial.length > 0) {
                     let mensajeHistorial = "Historial:\n";
                     let texto = registro.producto ? registro.producto.nombre : "no se agregaron productos al carrito";
-                    historial.forEach(registro, index){
+                    historial.forEach(registro, index => {
                         mensajeHistorial += `${index + 1}. Acción: ${registro.accion}, Producto: ${texto}\n`;
-                    }
+                    });
+                    return mensajeHistorial;
                 }
             case 5:
                 alert(realizarCompra());
