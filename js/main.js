@@ -24,29 +24,23 @@ function MostrarProductos() {
     return mensaje;
 }
 
-function AgregarAlCarrito(id) {
-    const producto = productos.find(producto => producto.id === id);
-    if (producto) {
-        carrito.push(producto); // Agrega el producto al array carrito
-        historial.push({ accion: 'agregar', producto: producto }); // Agrega al historial
-        return `Producto ${producto.nombre} agregado al carrito.`;
-    }
 
-}
 
 function realizarCompra() {
     if (carrito.length !== 0) {
         let total = 0
-        total = caritto.reduce((total, producto) => total + producto.precio, 0);
-        let confirmar = confirm("¿Desea confirmar la compra por un total de $${total}?");
+        total = parseInt(carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0));
+        console.log(total);
+        let confirmar = confirm(`¿Desea confirmar la compra por un total de $${total}?`);
         if (confirmar) {
-            return "Gracias por tu compra!";
-        }
-        else {
+            historial.push({ accion: 'compra', total: total });
+            carrito = []; // Vaciar el carrito después de la compra
+            let mensajeCompra = `Compra realizada con éxito. \nTotal: $${total} \nProductos comprados:\n`;
+            console.log(mensajeCompra);
+        } else {
             return "Compra cancelada.";
         }
-    }
-    else {
+    } else {
         return "El carrito está vacío. No se puede realizar la compra.";
     }
 }
@@ -74,54 +68,52 @@ function mostrarMenu() {
                 alert(MostrarProductos());
                 break;
             case 2:
-                let id = parseInt(prompt("Ingrese el ID del producto a agregar:\n"));
-
-                let verProductos = "para volver a ver los productos disponibles, ingrese 6 \n";
-                alert(AgregarAlCarrito(id));
-                if (id === 6) {
-                    alert(MostrarProductos());
+                let id = parseInt(prompt("Ingrese el ID del producto a agregar:\n" + MostrarProductos()));
+                const productoSeleccionado = productos.find(producto => producto.id === id);
+                if (productoSeleccionado) {
+                    carrito.push(productoSeleccionado);
+                    historial.push({ accion: 'agregar', producto: productoSeleccionado });
+                    alert(`${productoSeleccionado.nombre} agregado al carrito.`);
+                } else {
+                    alert("Producto no encontrado.");
                 }
-
-                else {
-                    alert("Producto agregado al carrito.");
-                }
-                historial.push({ accion: 'ver productos', productos: productos });
                 break;
             case 3:
                 if (carrito.length > 0) {
                     let mensajeCarrito = "Carrito:\n";
                     carrito.forEach(producto => {
-                        mensajeCarrito += `${producto.id}. ${producto.nombre} - $${producto.precio}\n`;
+                        mensajeCarrito += `${producto.id}. ${producto.nombre} - $${producto.precio} \n`;
                     });
-                }
-                else {
+                    let total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0);
+                    mensajeCarrito += `\nTotal: $${total}`;
+                    alert(mensajeCarrito);
+                } else {
                     alert("El carrito está vacío.");
-                };
-
+                }
+                break;
             case 4:
                 if (historial.length > 0) {
                     let mensajeHistorial = "Historial:\n";
-                    let texto = registro.producto ? registro.producto.nombre : "no se agregaron productos al carrito";
-                    historial.forEach(registro, index => {
-                        mensajeHistorial += `${index + 1}. Acción: ${registro.accion}, Producto: ${texto}\n`;
+                    historial.forEach((registro, index) => {
+                        let texto = registro.producto ? registro.producto.nombre : "no se agregaron productos al carrito";
+                        mensajeHistorial += `${index + 1}. Acción: ${registro.accion}, Producto: ${texto} \n`;
                     });
-                    return mensajeHistorial;
+                    alert(mensajeHistorial);
+                } else {
+                    alert("No hay historial disponible.");
                 }
-            case 5:
-                alert(realizarCompra());
                 break;
+            case 5:
+               console.log(realizarCompra());
             case 6:
                 alert("Gracias por usar el sistema. ¡Hasta luego!");
                 break;
-
             default:
                 alert("Opción no válida. Intente nuevamente.");
                 break;
-
-
         }
-    }
-    while (opcion !== 4);
+    } while (opcion !== 6);
 }
-console.log(mostrarMenu());
+
+mostrarMenu();
 
