@@ -32,11 +32,10 @@ function realizarCompra() {
         total = parseInt(carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0));
         console.log(total);
         let confirmar = confirm(`¿Desea confirmar la compra por un total de $${total}?`);
-        if (confirmar) {
+        if (confirmar === true) {
             historial.push({ accion: 'compra', total: total });
             carrito = []; // Vaciar el carrito después de la compra
-            let mensajeCompra = `Compra realizada con éxito. \nTotal: $${total} \nProductos comprados:\n`;
-            console.log(mensajeCompra);
+            return (`Compra realizada con éxito. Total: $${total}`);
         } else {
             return "Compra cancelada.";
         }
@@ -104,7 +103,8 @@ function mostrarMenu() {
                 }
                 break;
             case 5:
-               console.log(realizarCompra());
+               alert (realizarCompra());
+               break;
             case 6:
                 alert("Gracias por usar el sistema. ¡Hasta luego!");
                 break;
