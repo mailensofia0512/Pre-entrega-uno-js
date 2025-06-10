@@ -25,7 +25,7 @@ function MostrarProductos() {
 }
 
 
-
+// funcion para realizar compra 
 function realizarCompra() {
     if (carrito.length !== 0) {
         let total = 0
@@ -63,9 +63,12 @@ function mostrarMenu() {
     do {
         opcion = parseInt(prompt(mensaje));
         switch (opcion) {
+            // opcion 1
             case 1:
                 alert(MostrarProductos());
                 break;
+
+            //  opcion 2
             case 2:
                 let id = parseInt(prompt("Ingrese el ID del producto a agregar:\n" + MostrarProductos()));
                 const productoSeleccionado = productos.find(producto => producto.id === id);
@@ -77,6 +80,8 @@ function mostrarMenu() {
                     alert("Producto no encontrado.");
                 }
                 break;
+
+            // opcion 3
             case 3:
                 if (carrito.length > 0) {
                     let mensajeCarrito = "Carrito:\n";
@@ -90,6 +95,8 @@ function mostrarMenu() {
                     alert("El carrito está vacío.");
                 }
                 break;
+
+            // opcion 4
             case 4:
                 if (historial.length > 0) {
                     let mensajeHistorial = "Historial:\n";
@@ -102,12 +109,18 @@ function mostrarMenu() {
                     alert("No hay historial disponible.");
                 }
                 break;
+
+            // opcion 5
             case 5:
                alert (realizarCompra());
                break;
+
+            // opcion 6
             case 6:
                 alert("Gracias por usar el sistema. ¡Hasta luego!");
                 break;
+            
+            // opcion por defecto
             default:
                 alert("Opción no válida. Intente nuevamente.");
                 break;
